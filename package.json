@@ -34,7 +34,10 @@
       "oneClick": false,
       "perMachine": false,
       "allowElevation": true,
-      "artifactName": "OneAI Setup ${version}.exe"
+  "artifactName": "OneAI Setup ${version}.exe",
+  "installerIcon": "assets/logo.ico",
+  "uninstallerIcon": "assets/logo.ico",
+  "installerHeaderIcon": "assets/logo.ico"
     }
   }
 }
