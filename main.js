@@ -5,6 +5,12 @@ const fs = require('fs');
 let mainWindow;
 let storageWatcher = null;
 
+// Set app name and AppUserModelID (Windows) for proper icon and notifications
+try {
+  app?.setAppUserModelId?.('com.imcoderofficial.oneai');
+  if (app) app.name = 'OneAI';
+} catch (e) { console.error('Failed to set AppUserModelId:', e); }
+
 function createMenu() {
   // Always include an entry to open the local OneAI index and a default Chatgpt shortcut.
   const chatGptUrl = 'https://chat.openai.com/';
@@ -53,6 +59,9 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false
     }
+  ,
+  // set a window icon where supported
+  icon: path.join(__dirname, 'assets', 'logo.ico')
   });
 
   // Default to an external AI service on startup; user can open OneAI from the menu
