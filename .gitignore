@@ -361,3 +361,45 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# --- Node / Electron build artifacts and local files ---
+# Build output
+dist/
+dist/*
+win-unpacked/
+
+# Installer and packaging artifacts
+*.exe
+*.msi
+*.pdb
+*.blockmap
+*.zip
+*.7z
+OneAI Setup*.exe
+
+# electron-builder debug/effective config
+builder-debug.yml
+builder-effective-config.yaml
+latest.yml
+app-update.yml
+
+# Package managers
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+pnpm-lock.yaml
+
+# Environment and logs
+.env
+.env.*
+*.log
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Misc caches
+.cache
+node_modules/

@@ -15,9 +15,9 @@
     "electron-builder": "^24.6.0"
   },
   "build": {
-    "appId": "com.imcoderofficial.oneai",
-  "companyName": "imcoderofficial",
+  "appId": "com.imcoderofficial.oneai",
     "productName": "OneAI",
+    "icon": "assets/logo",
     "directories": {
       "buildResources": "assets",
       "output": "dist"
@@ -27,7 +27,14 @@
     ],
     "win": {
       "target": ["nsis"],
-      "icon": "assets/logo.ico"
+      "icon": "assets/logo.ico",
+      "publisherName": "imcoderofficial"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "artifactName": "OneAI Setup ${version}.exe"
     }
   }
 }
