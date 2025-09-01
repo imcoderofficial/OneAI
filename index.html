@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OneAI - Index</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-" crossorigin="anonymous">
+  <style>
+    :root{
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --muted: #6b7280;
+      --accent: #7c5cff;
+      --border: #e6eef6;
+      --shadow: 0 10px 30px rgba(16,24,40,0.08);
+      --radius: 12px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;font-family:"Inter",system-ui,Segoe UI,Arial; background:linear-gradient(180deg,#fbfdff 0%, #f7fafc 100%); color:#102132;
+      -webkit-font-smoothing:antialiased;
+    }
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;border-bottom:1px solid var(--border);background:transparent}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#5dd6d6);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:14px}
+    .title{font-size:18px;font-weight:700}
+    .subtitle{font-size:13px;color:var(--muted)}
+
+    /* full-bleed layout */
+    .container{display:grid;grid-template-columns:minmax(300px,380px) 1fr;grid-auto-rows:1fr;gap:20px;padding:28px;width:100vw;max-width:100%;}
+    .panel{background:var(--panel);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);height:calc(100vh - 106px);overflow:auto}
+
+    /* left column */
+    .left .heading{display:flex;align-items:center;justify-content:space-between}
+    .left h2{margin:0;font-size:20px}
+    form label{display:block;font-size:13px;color:var(--muted);margin-top:14px}
+    input[type=text]{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid var(--border);background: #fff;color:inherit;box-sizing:border-box}
+    .controls{display:flex;gap:12px;margin-top:16px}
+    /* All buttons use the same simple outline style (like Clear) */
+    button, .btn {
+      padding:10px 14px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      cursor:pointer;
+      font-weight:600;
+      background:transparent !important;
+      color:var(--muted) !important;
+    }
+    /* ensure item small buttons match as well */
+    .item button{padding:6px 10px;font-size:13px;background:transparent;border:1px solid var(--border);color:var(--muted)}
+    .note{margin-top:12px;font-size:13px;color:var(--muted)}
+
+    /* right column */
+    .right .search{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+    .search input{flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);background:#fff;color:inherit}
+    .list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+    .item{padding:16px;border-radius:10px;background:#fff;border:1px solid var(--border);transition:transform .15s ease,box-shadow .15s ease}
+    .item:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(16,24,40,0.06)}
+    .item strong{display:block;font-size:15px;color:#061828}
+    .item .small{color:var(--muted);font-size:13px;overflow-wrap:anywhere}
+  .item .actions{margin-top:12px;display:flex;gap:8px}
+
+    /* responsive behaviour */
+    @media(max-width:1100px){
+      .container{grid-template-columns:320px 1fr}
+    }
+    @media(max-width:880px){
+      .container{grid-template-columns:1fr;grid-auto-rows:auto}
+      .panel{height:auto;max-height:calc(100vh - 140px)}
+    }
+    @media(prefers-reduced-motion:reduce){.item{transition:none}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+  
+        <div>
+        <div class="title">OneAI</div>
+        <div class="subtitle">Manage your AI shortcuts</div>
+      </div>
+    </div>
+    <div class="subtitle">Click the OneAI menu to return to this page anytime</div>
+  </header>
+
+  <div class="container">
+    <div class="panel left">
+      <div class="heading"><h2>Manage AI entries</h2></div>
+      <form id="form-ai">
+        <input type="hidden" id="ai-id" />
+        <label>AI Label
+          <input type="text" id="ai-label" placeholder="e.g., ChatGPT" />
+        </label>
+        <label>AI Website
+          <input type="text" id="ai-website" placeholder="https://..." />
+        </label>
+          <div class="controls d-flex">
+            <button id="save-btn" type="submit" class="btn btn-primary me-2">Add AI</button>
+            <button id="clear-btn" type="button" class="btn btn-outline-light ms-auto">Clear</button>
+          </div>
+      </form>
+      <div class="note">Entries are stored locally on your machine.</div>
+    </div>
+
+    <div class="panel right">
+      <div class="search mb-2">
+        <input id="filter" type="text" class="form-control" placeholder="Filter AIs by name or website..." oninput="(function(){const q=this.value.toLowerCase();document.querySelectorAll('.item').forEach(el=>{const t=el.dataset.search;el.style.display=t.includes(q)?'block':'none'})}).call(this)" />
+      </div>
+      <div id="right-list" class="list"></div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
