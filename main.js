@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -66,6 +66,35 @@ function createWindow() {
 
   // Default to an external AI service on startup; user can open OneAI from the menu
   mainWindow.loadURL('https://chat.openai.com/');
+  // Prevent in-app navigation for external links and open them in default browser
+  try {
+    // Links that attempt to open a new window (target="_blank")
+    mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+      // Always open external URLs in the user's default browser
+      shell.openExternal(url).catch(err => console.error('Failed to open external URL:', err));
+      return { action: 'deny' };
+    });
+
+    // Prevent navigation within the app to external origins
+    mainWindow.webContents.on('will-navigate', (event, url) => {
+      const allowedOrigin = 'https://chat.openai.com/';
+      try {
+        const target = new URL(url);
+        const allowed = new URL(allowedOrigin);
+        if (target.origin !== allowed.origin) {
+          event.preventDefault();
+          shell.openExternal(url).catch(err => console.error('Failed to open external URL:', err));
+        }
+      } catch (e) {
+        console.error('URL parse failed, opening externally:', e);
+        // If URL parsing fails, block navigation and open externally as a fallback
+        event.preventDefault();
+        shell.openExternal(url).catch(err => console.error('Failed to open external URL (fallback):', err));
+      }
+    });
+  } catch (e) {
+    console.error('Failed to attach external link handlers:', e);
+  }
 }
 
 app.whenReady().then(() => {
